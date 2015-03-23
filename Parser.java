@@ -7,10 +7,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.zip.*;
 
-
-
-
-
 public class Parser
 {
  public static void main(String args[] )  throws Exception 
