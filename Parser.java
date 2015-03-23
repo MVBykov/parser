@@ -7,23 +7,122 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.zip.*;
 
+
+class GetPages  
+{
+	private 		String lp_URL;
+	private int 	lp_CountOfPages;
+	private String 	lp_pathBase;
+	private String 	lp_pathCurent;
+	private String 	lp_nameFile;
+	private String 	lp_pathCurentDir;
+	
+	GetPages(String lp_URL, int lp_CountOfPages, String lp_pathBase, String lp_pathCurent, String lp_nameFile) 
+	{
+		
+		this.lp_URL 			= lp_URL;
+		this.lp_CountOfPages 	= lp_CountOfPages;
+		this.lp_pathBase 		= lp_pathBase;
+		this.lp_pathCurent 		= lp_pathCurent;
+		this.lp_nameFile 		= lp_nameFile;
+		
+	}
+	
+	void run() throws Exception
+	{
+		creatDir();
+		//System.out.println(lp_pathBase + lp_pathCurentDir);
+		for (int i = 1; i <= lp_CountOfPages; i++) {	
+			String path = lp_pathBase + lp_pathCurentDir + "/" + lp_nameFile + i + ".txt";
+			OutputStream outputStream;
+			outputStream = new FileOutputStream(path);
+	 
+			URL url = new URL(lp_URL+i);
+			BufferedReader reader = new BufferedReader(
+            new InputStreamReader(url.openConnection().getInputStream(), "UTF-8"));
+			while (true) {
+				String line = reader.readLine();
+				if (line == null)
+				break;
+				outputStream.write(line.getBytes());
+			}
+			System.out.println(lp_nameFile + i);
+			outputStream.close();
+		 
+			//ZipEntry ze = new ZipEntry(path);
+			//zout.putNextEntry(ze);	
+
+			//zout.closeEntry();	     
+		}		
+	}
+	
+	private String getTextPage(String lp_URL)
+	{
+		/*String path = lp_pathBase + lp_pathCurentDir + "/" + lp_nameFile + i + ".txt";
+		OutputStream outputStream;
+		outputStream = new FileOutputStream(path);
+	 
+		URL url = new URL(lp_URL+i);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), "UTF-8"));
+			while (true) {
+				String line = reader.readLine();
+				if (line == null)
+				break;
+				outputStream.write(line.getBytes());
+			}
+			System.out.println(path);
+			outputStream.close();*/			
+		return "";
+	}
+	
+	private void creatDir() throws Exception 
+	{
+		Calendar Current_Calendar = Calendar.getInstance();
+		Date calCurDate = Current_Calendar.getTime();
+		DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH-mm-ss");
+		String strCurDate = formatter.format(calCurDate);    
+    
+		lp_pathCurentDir = lp_pathCurent + strCurDate;
+    
+		File myPath = new File(lp_pathBase + lp_pathCurentDir);
+		myPath.mkdirs();
+	}
+	
+	
+	
+}
+
+
 public class Parser
 {
+ 
+ 
  public static void main(String args[] )  throws Exception 
  {
-    String path;
+
+    GetPages OnePage; 
+	
+	//String lp_URL, int lp_CountOfPages, String lp_pathBase, String lp_pathCurent, String lp_nameFile
+	OnePage = new GetPages("http://www.aviso.ua/kiev/list.php?r=121&p=", 500, "C:/java_sourse/Parser/TestData/", "apartments_for_rent_", "aviso_");
+	OnePage.run();
+	
+ 
+	/*
+	
+	
+	String path;
     
     //String pathBase = "/home/max/workspace/test/";
 	String pathBase = "C:/java_sourse/Parser/TestData/";
     String pathCurent = "apartments_for_rent_";
 	//String pathCurent = "jobs_";
     String nameFile = "aviso_";
-	
+	*/
 
     //Calendar Current_Calendar = Calendar.getInstance();
     //Date Current_Date = Current_Calendar.getTime();    
     
-    Calendar Current_Calendar=Calendar.getInstance();
+    /*Calendar Current_Calendar=Calendar.getInstance();
     Date calCurDate = Current_Calendar.getTime();
     //Date calCurDate = new Date();
     DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH-mm-ss");
@@ -33,9 +132,9 @@ public class Parser
     
 
     File myPath = new File(pathBase + pathCurent);
-    myPath.mkdirs();
+    myPath.mkdirs();*/
 
-	OutputStream outputStream;
+	/*OutputStream outputStream;
 	 
 
     FileOutputStream fout = new FileOutputStream(pathBase + pathCurent + ".zip");
@@ -74,7 +173,7 @@ public class Parser
 
 
      zout.close();
-     
+     */
 
      //deleteDirectory(myPath);
      
