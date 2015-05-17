@@ -92,7 +92,6 @@ class GetPages
 	
 }
 
-//It`s start!!!!!!
 public class Parser
 {
  
@@ -100,11 +99,13 @@ public class Parser
  public static void main(String args[] )  throws Exception 
  {
 
+
     GetPages onePage; 
 	
 	//String lp_URL, int lp_CountOfPages, String lp_pathBase, String lp_pathCurent, String lp_nameFile
 	onePage = new GetPages("http://www.aviso.ua/kiev/list.php?r=121&p=", 600, "C:/java_sourse/Parser/TestData/", "apartments_for_rent_", "aviso_");
 	onePage.run();
+
 	
  
 	/*
