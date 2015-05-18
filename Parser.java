@@ -95,17 +95,91 @@ class GetPages
 public class Parser
 {
  
+ private static String GetParametr(String CurrentString, String CurrentParam)
+ {
+	String Ret = CurrentString.replace (CurrentParam,"");	
+	return Ret;
+	//System.out.println( lp_URL );
+ }
  
  public static void main(String args[] )  throws Exception 
  {
-
+	String lp_URL = "";
+	int lp_CountOfPages = 0;
+	String lp_pathBase = "";
+	String lp_pathCurent = "";
+	String lp_nameFile = "";
+	//System.out.println(args.length);
+	String FileSett;
+	
+	if (args.length > 0) 
+	{
+		FileSett = args[0];
+		System.out.println("Settings file name: " + args[0]);
+	}
+	else {
+		System.out.println("No Settings file!");	
+		return;
+	}
+	
+	//java.io.File
+	File SetFile = new File(FileSett);
+	if (SetFile.exists()) {
+		
+        BufferedReader br = new BufferedReader (
+            new InputStreamReader(
+                new FileInputStream( SetFile ), "UTF-8"
+            )
+        );
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            //variable line does NOT have new-line-character at the end
+			//switch()
+			
+			//String FSumb = "[URL]=";
+            if (line.indexOf("[URL]=") != -1)	{
+				lp_URL = GetParametr(line ,"[URL]=");	
+				System.out.println( lp_URL );
+			}
+			else if (line.indexOf("[COUNTER]=") != -1)	{
+				lp_CountOfPages = Integer.parseInt(GetParametr(line ,"[COUNTER]="));	
+				System.out.println( lp_CountOfPages );
+				
+			}
+			else if (line.indexOf("[PATH]=") != -1)	{
+				lp_pathBase = GetParametr(line ,"[PATH]=");	
+				System.out.println( lp_pathBase );
+			}
+			else if (line.indexOf("[NAMEDIR]=") != -1)	{
+				lp_pathCurent = GetParametr(line ,"[NAMEDIR]=");	
+				System.out.println( lp_pathCurent );
+			}	
+			else if (line.indexOf("[NAMEFILE]=") != -1)	{
+				lp_nameFile = GetParametr(line ,"[NAMEFILE]=");	
+				System.out.println( lp_nameFile );
+			}				
+			
+        }
+        br.close();		
+		
+		// существует
+	} else {
+		// не существует
+		System.out.println("File no found!");
+		return;
+	}	
+	
+	
 
     GetPages onePage; 
 	
 	//String lp_URL, int lp_CountOfPages, String lp_pathBase, String lp_pathCurent, String lp_nameFile
-	onePage = new GetPages("http://www.aviso.ua/kiev/list.php?r=121&p=", 600, "C:/java_sourse/Parser/TestData/", "apartments_for_rent_", "aviso_");
+	
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+	onePage = new GetPages(lp_URL, lp_CountOfPages, lp_pathBase, lp_pathCurent, lp_nameFile);
 	onePage.run();
-
+	
 	
  
 	/*
